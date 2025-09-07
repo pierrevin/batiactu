@@ -166,6 +166,30 @@ export const AxisCard: React.FC<AxisCardProps> = ({
                 </div>
               </div>
             )}
+            {vNarrative && (
+              <div className="v-narrative-section">
+                <h3 className="v-narrative-title">
+                  Focus : La Narration en V
+                </h3>
+                
+                <div className="v-narrative-content">
+                  <div className="v-narrative-item">
+                    <div className="v-narrative-label">Principe</div>
+                    <p className="v-narrative-text">{vNarrative.principe}</p>
+                  </div>
+                  
+                  <div className="v-narrative-item">
+                    <div className="v-narrative-label">Avantage</div>
+                    <p className="v-narrative-text">{vNarrative.avantage}</p>
+                  </div>
+                  
+                  <div className="v-narrative-item highlight-full">
+                    <div className="v-narrative-label">Exemple</div>
+                    <p className="v-narrative-text">{vNarrative.exemple}</p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* 4. BLOC PRATIQUES */}
             {practices.length > 0 && (
