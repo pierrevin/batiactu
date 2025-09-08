@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Target, Lightbulb, ArrowRight, Zap } from 'lucide-react';
+import { siteConfig } from '../config/content';
 
 export const Conclusion: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,142 +22,188 @@ export const Conclusion: React.FC = () => {
   }, []);
 
   return (
-    <section 
-      id="conclusion" 
-      ref={sectionRef}
-      className="section-padding conclusion-section"
-    >
-      <div className="container">
-        
-        {/* Header */}
-        <div className={`
-          text-center mb-20 transition-all duration-700
-          ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}
-        `}>
-          <h2 className="text-display font-black text-gray-900 mb-6">
-            L'Heure de la Réinvention
-          </h2>
-        </div>
+    <>
+      {/* Section 1: Récapitulatif */}
+      <section className="axis-section">
+        <div className="container">
+          <div className="two-column-layout">
+            
+            {/* Colonne narrative */}
+            <div className="narrative-column">
+              <div className="section-header">
+                <div className="axis-number">1</div>
+                <div>
+                  <div className="text-sm font-bold text-yellow-600 uppercase tracking-wider mb-3">
+                    Conclusion
+                  </div>
+                  <h2 className="axis-title">
+                    {siteConfig.conclusion.cards[0].title}
+                  </h2>
+                </div>
+              </div>
 
-        {/* Grid Principal */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          
-          {/* Récapitulatif */}
-          <div className={`
-            impact-card transition-all duration-700
-            ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}
-          `} style={{ transitionDelay: '200ms' }}>
-            
-            <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 border-4 border-black" style={{boxShadow: '3px 3px 0 #FFE666'}}>
-              <Target className="text-black" size={24} />
+              <div className="concept-section">
+                <div className="concept-badge">RÉCAPITULATIF</div>
+                <h3 className="concept-title">Les 7 formats</h3>
+                <ul className="styled-list">
+                  {siteConfig.conclusion.cards[0].items.map((item, i) => (
+                    <li key={i} className="text-body leading-relaxed font-medium">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            
-            <h3 className="text-subtitle font-bold mb-6 text-black">Récapitulatif</h3>
-            
-            <ul className="styled-list">
-              {[
-                "7 formats = leviers puissants pour transformer Batiactu",
-                "Créateur d'expériences à haute valeur ajoutée", 
-                "Prioriser : ne pas tout faire, mais choisir les briques stratégiques"
-              ].map((item, i) => (
-                <li key={i} className="text-sm leading-relaxed font-medium">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Gestion Stratégique */}
-          <div className={`
-            impact-card transition-all duration-700
-            ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}
-          `} style={{ transitionDelay: '400ms' }}>
-            
-            <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 border-4 border-black" style={{boxShadow: '3px 3px 0 #FFE666'}}>
-              <Lightbulb className="text-black" size={24} />
+            {/* Colonne visuelle */}
+            <div className="visual-column">
+              <div className="visual-element active">
+                <div className="concept-placeholder">
+                  <div className="placeholder-icon">
+                    <Target className="w-12 h-12 text-gray-300" />
+                  </div>
+                  <p className="placeholder-text">
+                    Transformer Batiactu avec 7 formats innovants
+                  </p>
+                </div>
+              </div>
             </div>
-            
-            <h3 className="text-subtitle font-bold mb-6 text-black">Gestion Stratégique</h3>
-            
-            <ul className="styled-list">
-              {[
-                "Adopter une stratégie éditoriale moderne",
-                "Embrasser les tensions et contradictions",
-                "Créer une offre diversifiée et cohérente"
-              ].map((item, i) => (
-                <li key={i} className="text-sm leading-relaxed font-medium">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Appel à l'Action */}
-          <div className={`
-            impact-card transition-all duration-700
-            ${isVisible ? 'animate-scale-in' : 'opacity-0'}
-          `} style={{ 
-            transitionDelay: '600ms',
-            background: '#FFFBEA'
-          }}>
-            
-            <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center mb-6 border-4 border-black" style={{boxShadow: '3px 3px 0 #FFE666'}}>
-              <Zap className="text-black" size={24} />
-            </div>
-            
-            <h3 className="text-subtitle font-bold mb-6 text-black">Appel à l'Action</h3>
-            
-            <p className="text-black leading-relaxed mb-6 opacity-90">
-              <span className="font-bold text-black text-lg block mb-2">
-                "Quelle sera la première brique que nous poserons ?"
-              </span>
-              <span className="text-sm">Série ? Data immersive ? Outils pratiques ?</span>
-            </p>
-            
-            <button 
-              className="w-full font-bold py-4 px-6 rounded-xl transition-all duration-300 border-4 border-black"
-              style={{
-                background: '#FFE666',
-                color: '#000000',
-                boxShadow: '4px 4px 0 #000000'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translate(-2px, -2px)';
-                e.currentTarget.style.boxShadow = '6px 6px 0 #000000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 #000000';
-              }}
-            >
-              Consulter la Matrice Stratégique
-            </button>
           </div>
         </div>
+      </section>
 
-        {/* Citation Finale */}
-        <div className={`
-          text-center rounded-3xl p-12 transition-all duration-700 border-4 border-black
-          ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}
-        `} style={{ 
-          transitionDelay: '800ms',
-          background: '#F7F7F7',
-          boxShadow: '8px 8px 0 #FFE666'
-        }}>
+      {/* Section 2: Gestion Stratégique */}
+      <section className="axis-section">
+        <div className="container">
+          <div className="two-column-layout">
+            
+            {/* Colonne narrative */}
+            <div className="narrative-column">
+              <div className="section-header">
+                <div className="axis-number">2</div>
+                <div>
+                  <div className="text-sm font-bold text-yellow-600 uppercase tracking-wider mb-3">
+                    Conclusion
+                  </div>
+                  <h2 className="axis-title">
+                    {siteConfig.conclusion.cards[1].title}
+                  </h2>
+                </div>
+              </div>
+
+              <div className="concept-section">
+                <div className="concept-badge">STRATÉGIE</div>
+                <h3 className="concept-title">Approche moderne</h3>
+                <ul className="styled-list">
+                  {siteConfig.conclusion.cards[1].items.map((item, i) => (
+                    <li key={i} className="text-body leading-relaxed font-medium">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Colonne visuelle */}
+            <div className="visual-column">
+              <div className="visual-element active">
+                <div className="concept-placeholder">
+                  <div className="placeholder-icon">
+                    <Lightbulb className="w-12 h-12 text-gray-300" />
+                  </div>
+                  <p className="placeholder-text">
+                    Adopter une stratégie éditoriale moderne
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3: Appel à l'Action */}
+      <section className="axis-section">
+        <div className="container">
+          <div className="two-column-layout">
+            
+            {/* Colonne narrative */}
+            <div className="narrative-column">
+              <div className="section-header">
+                <div className="axis-number">3</div>
+                <div>
+                  <div className="text-sm font-bold text-yellow-600 uppercase tracking-wider mb-3">
+                    Conclusion
+                  </div>
+                  <h2 className="axis-title">
+                    {siteConfig.conclusion.cards[2].title}
+                  </h2>
+                </div>
+              </div>
+
+              <div className="concept-section">
+                <div className="concept-badge">ACTION</div>
+                <h3 className="concept-title">Prochaine étape</h3>
+                <p className="concept-text mb-6">
+                  <span className="font-bold text-lg block mb-2">
+                    "{siteConfig.conclusion.cards[2].question}"
+                  </span>
+                  <span>{siteConfig.conclusion.cards[2].subtitle}</span>
+                </p>
+                
+                <button 
+                  className="w-full font-bold py-4 px-6 rounded-xl transition-all duration-300 border-4 border-black"
+                  style={{
+                    background: '#FFE666',
+                    color: '#000000',
+                    boxShadow: '4px 4px 0 #000000'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translate(-2px, -2px)';
+                    e.currentTarget.style.boxShadow = '6px 6px 0 #000000';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translate(0, 0)';
+                    e.currentTarget.style.boxShadow = '4px 4px 0 #000000';
+                  }}
+                >
+                  {siteConfig.conclusion.cards[2].buttonText}
+                </button>
+              </div>
+            </div>
+
+            {/* Colonne visuelle */}
+            <div className="visual-column">
+              <div className="visual-element active">
+                <div className="concept-placeholder">
+                  <div className="placeholder-icon">
+                    <Zap className="w-12 h-12 text-gray-300" />
+                  </div>
+                  <p className="placeholder-text">
+                    Quelle sera la première brique ?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Citation Finale */}
+      <section className="hero-section-block">
+        <div className="hero-content">
+          <h1 className="hero-title-large">
+            <span className="hero-title-gradient">{siteConfig.conclusion.finalQuote.highlight}</span>
+          </h1>
           
-          <blockquote className="text-title lg:text-display font-black leading-tight mb-8 text-black">
-            <span className="highlight">
-              "L'heure est à la réinvention."
-            </span>
-            <br />
-            Batiactu.com doit être un créateur d'expériences indispensables.
-          </blockquote>
+          <p className="hero-subtitle-large">
+            {siteConfig.conclusion.finalQuote.continuation}
+          </p>
           
-          <cite className="text-black font-medium text-lg opacity-80">
-            Innover dans l'Info BTP – Stratégies et Dilemmes des Nouveaux Formats Éditoriaux
+          <cite className="text-black font-medium text-body-large opacity-80 mt-8 block">
+            {siteConfig.conclusion.finalQuote.citation}
           </cite>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };

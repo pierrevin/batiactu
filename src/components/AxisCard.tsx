@@ -1,18 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DivideIcon as LucideIcon, Target, TrendingUp } from 'lucide-react';
+import { DivideIcon as LucideIcon, Target, TrendingUp, BarChart3, MousePointer } from 'lucide-react';
+
+interface Example {
+  title: string;
+  description: string;
+  url: string;
+}
 
 interface AxisCardProps {
   id: string;
   title: string;
   subtitle?: string;
   concept: string;
-  examples: string[];
+  examples: Example[];
   applications: string[];
   practices: string[];
-  vNarrative?: {
-    principe: string;
-    avantage: string;
-    exemple: string;
+  rightColumn?: {
+    vNarrative?: {
+      title: string;
+      principe: string;
+      avantage: string;
+      exemple: string;
+    };
+    scrollytelling?: {
+      title: string;
+      principe: string;
+      avantage: string;
+      exemple: string;
+    };
   };
   faisabilite: string;
   paywall: string;
@@ -26,9 +41,9 @@ export const AxisCard: React.FC<AxisCardProps> = ({
   subtitle,
   concept, 
   examples, 
-  applications, 
+  applications,
   practices, 
-  vNarrative,
+  rightColumn,
   faisabilite, 
   paywall, 
   icon: Icon, 
@@ -36,6 +51,7 @@ export const AxisCard: React.FC<AxisCardProps> = ({
 }) => {
   const [activeVisual, setActiveVisual] = useState<string>('overview');
   const [hasSeenExamples, setHasSeenExamples] = useState(false);
+  const [hasSeenPractices, setHasSeenPractices] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const conceptRef = useRef<HTMLDivElement>(null);
   const examplesRef = useRef<HTMLDivElement>(null);
@@ -53,6 +69,7 @@ export const AxisCard: React.FC<AxisCardProps> = ({
               setHasSeenExamples(true);
             } else if (entry.target === practicesRef.current) {
               setActiveVisual('applications');
+              setHasSeenPractices(true);
             }
           }
         });
@@ -70,19 +87,17 @@ export const AxisCard: React.FC<AxisCardProps> = ({
   }, []);
 
   const getFaisabiliteLevel = (level: string) => {
-    if (level.includes('Très Élevée')) return { level: 'very-high', width: '90%' };
-    if (level.includes('Élevée')) return { level: 'high', width: '75%' };
-    if (level.includes('Moyenne')) return { level: 'medium', width: '50%' };
-    if (level.includes('Faible')) return { level: 'low', width: '25%' };
-    return { level: 'very-low', width: '10%' };
+    if (level === 'Élevé') return { level: 'faisabilite-high', width: '80%' };
+    if (level === 'Moyen' || level === 'Moyenne') return { level: 'faisabilite-medium', width: '50%' };
+    if (level === 'Faible') return { level: 'faisabilite-low', width: '20%' };
+    return { level: 'faisabilite-medium', width: '50%' };
   };
 
   const getPaywallLevel = (level: string) => {
-    if (level.includes('Très Élevé')) return { level: 'very-high', width: '90%' };
-    if (level.includes('Élevé')) return { level: 'high', width: '75%' };
-    if (level.includes('Moyen')) return { level: 'medium', width: '50%' };
-    if (level.includes('Faible')) return { level: 'low', width: '25%' };
-    return { level: 'very-low', width: '10%' };
+    if (level === 'Élevé') return { level: 'paywall-high', width: '80%' };
+    if (level === 'Moyen' || level === 'Moyenne') return { level: 'paywall-medium', width: '50%' };
+    if (level === 'Faible') return { level: 'paywall-low', width: '20%' };
+    return { level: 'paywall-medium', width: '50%' };
   };
 
   return (
@@ -116,62 +131,108 @@ export const AxisCard: React.FC<AxisCardProps> = ({
             {/* 2. BLOC CONCEPT */}
             <div ref={conceptRef} className="concept-section">
               <div className="concept-badge">CONCEPT</div>
-              <h3 className="concept-title">Le Concept</h3>
+                <h3 className="concept-title">Concept</h3>
               <p className="concept-text">
                 {concept}
               </p>
             </div>
 
-            {/* 3. BLOC EXEMPLES */}
+            {/* 3. BLOC EXEMPLES AVEC FOCUS TECHNIQUES */}
             <div ref={examplesRef} className="examples-section">
               <h3 className="examples-title">
-                Références Médias
+                Dans les médias
               </h3>
-              <div className="space-y-4">
-                {examples.slice(0, 3).map((example, i) => {
-                  const [source, ...descParts] = example.split(' : ');
-                  const description = descParts.join(' : ');
-                  return (
-                    <div key={i} className="example-card">
-                      <div className="example-source">{source}</div>
-                      <div className="example-description">{description}</div>
-                    </div>
-                  );
-                })}
+              <div className="space-y-6">
+                {examples.map((example, i) => (
+                  <div key={i} className="example-with-focus">
+                    {/* Exemple */}
+                    <a 
+                      href={example.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="example-card example-card-link"
+                    >
+                      <div className="example-source">
+                        {example.title}
+                      </div>
+                      <div className="example-description">{example.description}</div>
+                    </a>
+                    
+                    {/* Focus technique correspondant */}
+                    {i === 0 && rightColumn?.scrollytelling && (
+                      <div className="focus-technique">
+                        <div className="focus-header">
+                          <div className="focus-icon">
+                            <MousePointer className="w-5 h-5" />
+                          </div>
+                          <h4 className="focus-title">
+                            {rightColumn.scrollytelling.title}
+                          </h4>
+                        </div>
+                        <div className="focus-content">
+                          <div className="focus-item">
+                            <div className="focus-label">Principe</div>
+                            <p className="focus-text">{rightColumn.scrollytelling.principe}</p>
+                          </div>
+                          <div className="focus-item">
+                            <div className="focus-label">Avantage</div>
+                            <p className="focus-text">{rightColumn.scrollytelling.avantage}</p>
+                          </div>
+                          <div className="focus-item highlight-full">
+                            <div className="focus-label">Exemple</div>
+                            <p className="focus-text">
+                              NYT Snow Fall : Le texte apparaît progressivement pendant que les images et animations se déclenchent au scroll, créant une expérience cinématographique.{' '}
+                              <a 
+                                href="https://www.nytimes.com/projects/2012/snow-fall/index.html#/?part=tunnel-creek"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="focus-link"
+                              >
+                                Voir l'exemple →
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {i === 1 && rightColumn?.vNarrative && (
+                      <div className="focus-technique">
+                        <div className="focus-header">
+                          <div className="focus-icon">
+                            <BarChart3 className="w-5 h-5" />
+                          </div>
+                          <h4 className="focus-title">
+                            {rightColumn.vNarrative.title}
+                          </h4>
+                        </div>
+                        <div className="focus-content">
+                          <div className="focus-item">
+                            <div className="focus-label">Principe</div>
+                            <p className="focus-text">{rightColumn.vNarrative.principe}</p>
+                          </div>
+                          <div className="focus-item">
+                            <div className="focus-label">Avantage</div>
+                            <p className="focus-text">{rightColumn.vNarrative.avantage}</p>
+                          </div>
+                          <div className="focus-item highlight-full">
+                            <div className="focus-label">Exemple</div>
+                            <p className="focus-text">{rightColumn.vNarrative.exemple}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* 3.5. BLOC NARRATION EN V - Entre exemples et bonnes pratiques */}
-            {vNarrative && (
-              <div className="v-narrative-section">
-                <h3 className="v-narrative-title">
-                  Focus : La Narration en V
-                </h3>
-                
-                <div className="v-narrative-content">
-                  <div className="v-narrative-item">
-                    <div className="v-narrative-label">Principe</div>
-                    <p className="v-narrative-text">{vNarrative.principe}</p>
-                  </div>
-                  
-                  <div className="v-narrative-item">
-                    <div className="v-narrative-label">Avantage</div>
-                    <p className="v-narrative-text">{vNarrative.avantage}</p>
-                  </div>
-                  
-                  <div className="v-narrative-item highlight-full">
-                    <div className="v-narrative-label">Exemple</div>
-                    <p className="v-narrative-text">{vNarrative.exemple}</p>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* 4. BLOC PRATIQUES */}
             {practices.length > 0 && (
               <div ref={practicesRef} className="practices-section">
                 <h3 className="practices-title">
-                  Bonnes Pratiques
+                  Bonnes pratiques
                 </h3>
                 <div className="space-y-3">
                   {practices.slice(0, 5).map((practice, i) => (
@@ -203,9 +264,9 @@ export const AxisCard: React.FC<AxisCardProps> = ({
               </div>
             </div>
 
-            {/* ENCADRÉ BATIACTU - Apparaît après les exemples */}
+            {/* ENCADRÉ BATIACTU - Apparaît au niveau des bonnes pratiques */}
             <div className={`
-              visual-element batiactu-card ${hasSeenExamples ? 'active' : ''}
+              visual-element batiactu-card ${hasSeenPractices ? 'active' : ''}
             `}>
               
               {/* Header avec badge */}
@@ -240,7 +301,7 @@ export const AxisCard: React.FC<AxisCardProps> = ({
                 
                 <div className="progress-item">
                   <div className="progress-header">
-                    <span className="progress-label">Impact Paywall</span>
+                    <span className="progress-label">Valorisation paywall</span>
                     <span className="progress-value">{paywall}</span>
                   </div>
                   <div className="progress-bar">
@@ -252,6 +313,7 @@ export const AxisCard: React.FC<AxisCardProps> = ({
                 </div>
               </div>
             </div>
+
 
             {/* APPLICATIONS CONCRÈTES - IMPACT BUSINESS */}
             <div className={`

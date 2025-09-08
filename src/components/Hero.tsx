@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowDown } from 'lucide-react';
+import { siteConfig } from '../config/content';
 
 export const Hero: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -30,14 +31,14 @@ export const Hero: React.FC = () => {
       <section className="hero-section-block">
         <div className="hero-content" style={{ transform: `translateY(${scrollY * 0.2}px)` }}>
           <h1 className="hero-title-large">
-            <span className="hero-title-gradient">Innover</span>{' '}
-            sans trahir{' '}
-            <span className="hero-title-gradient">l'info</span>
+            <span className="hero-title-gradient">{siteConfig.hero.mainTitle.part1}</span>{' '}
+            {siteConfig.hero.mainTitle.part2}{' '}
+            <span className="hero-title-gradient">{siteConfig.hero.mainTitle.part3}</span>
           </h1>
 
           <p className="hero-subtitle-large">
-            Comment transformer l'expérience éditoriale BTP avec{' '}
-            <span className="hero-highlight">7 formats innovants</span>
+            {siteConfig.hero.subtitle}{' '}
+            <span className="hero-highlight">{siteConfig.hero.highlight}</span>
           </p>
         </div>
       </section>
@@ -45,15 +46,15 @@ export const Hero: React.FC = () => {
       {/* SECTION 2 : CE QUE VEULENT LES PROS */}
       <section className="hero-section-block">
         <div className="hero-fullscreen-card pros-card" style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
-          <div className="hero-card-icon success">✓</div>
+          <div className="hero-card-icon success">{siteConfig.hero.prosSection.icon}</div>
           <h2 className="hero-card-title-large">
-            Ce que veulent les pros BTP
+            {siteConfig.hero.prosSection.title}
           </h2>
           <p className="hero-card-text-large">
-            Information <span className="hero-card-highlight">rigoureuse, fiable, actionnable</span>
+            {siteConfig.hero.prosSection.text} <span className="hero-card-highlight">{siteConfig.hero.prosSection.highlight}</span>
           </p>
           <div className="hero-card-badge-large">
-            Prêts à payer pour la qualité
+            {siteConfig.hero.prosSection.badge}
           </div>
         </div>
       </section>
@@ -61,15 +62,15 @@ export const Hero: React.FC = () => {
       {/* SECTION 3 : LEUR RÉALITÉ */}
       <section className="hero-section-block">
         <div className="hero-fullscreen-card reality-card" style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
-          <div className="hero-card-icon warning">!</div>
+          <div className="hero-card-icon warning">{siteConfig.hero.realitySection.icon}</div>
           <h2 className="hero-card-title-large">
-            Leur réalité quotidienne
+            {siteConfig.hero.realitySection.title}
           </h2>
           <p className="hero-card-text-large">
-            <span className="hero-card-highlight">70-400 notifications/jour</span>
+            <span className="hero-card-highlight">{siteConfig.hero.realitySection.text}</span>
           </p>
           <div className="hero-card-badge-large">
-            30 secondes par article
+            {siteConfig.hero.realitySection.badge}
           </div>
         </div>
       </section>
@@ -78,11 +79,11 @@ export const Hero: React.FC = () => {
       <section className="hero-section-block hero-thesis-section">
         <div className="hero-thesis" style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
           <h2 className="hero-thesis-title">
-            Notre Thèse Centrale
+            {siteConfig.hero.thesis.title}
           </h2>
           <p className="hero-thesis-text">
-            <span className="hero-thesis-highlight">Le format</span> est désormais{' '}
-            <span className="hero-thesis-highlight">aussi stratégique</span> que le fond
+            <span className="hero-thesis-highlight">{siteConfig.hero.thesis.highlight1}</span> est désormais{' '}
+            <span className="hero-thesis-highlight">{siteConfig.hero.thesis.highlight2}</span> que le fond
           </p>
         </div>
 
@@ -92,7 +93,7 @@ export const Hero: React.FC = () => {
             <div className="hero-scroll-dot" />
           </div>
           <span className="hero-scroll-text">
-            Découvrez les 7 formats
+            {siteConfig.hero.scrollText}
           </span>
         </div>
       </section>

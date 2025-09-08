@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AlertTriangle, Scale, Users, Bot, MousePointer, ArrowRight } from 'lucide-react';
+import { siteConfig } from '../config/content';
 
 export const TensionsSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,129 +21,84 @@ export const TensionsSection: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  const tensions = [
-    {
-      icon: Scale,
-      title: "Profondeur vs Concision",
-      subtitle: "Le Dilemme du Temps",
-      contradiction: "Les formats longs (séries, analyses Stratechry) visent la compréhension exhaustive. Les formats courts (Smart Brevity, TikTok) visent l'efficacité cognitive.",
-      exemple: "Un dossier RE2020 détaillé est précieux, mais la plupart veulent un résumé opérationnel.",
-      analyse: "Ce dilemme renvoie à la segmentation des usages : certains veulent « tout comprendre », d'autres « juste l'essentiel ».",
-      gestion: "Décliner chaque contenu en 2 formats (version longue + version Smart Brevity)."
-    },
-    {
-      icon: Users,
-      title: "Gratuit vs Payant",
-      subtitle: "L'Équilibre de la Valeur",
-      contradiction: "Le gratuit pour notoriété/acquisition vs le payant pour valeur/fidélisation.",
-      exemple: "Une vidéo LinkedIn attire de nouveaux lecteurs, mais l'analyse complète doit être réservée aux abonnés.",
-      analyse: "Le gratuit agit comme « bande-annonce » ; le payant comme « film complet ».",
-      gestion: "Stratégie d'entonnoir : gratuit comme teaser → payant comme aboutissement."
-    },
-    {
-      icon: Bot,
-      title: "Humain vs IA",
-      subtitle: "Le Défi de l'Authenticité",
-      contradiction: "L'incarnation humaine (authenticité) vs l'automatisation (efficacité, personnalisation).",
-      exemple: "Flash Info IA est rapide, mais la validation humaine garantit la crédibilité.",
-      analyse: "L'IA est efficace pour la production, mais seule la voix humaine crée l'émotion et la confiance.",
-      gestion: "IA = copilote, validation humaine systématique."
-    },
-    {
-      icon: MousePointer,
-      title: "Passif vs Actif",
-      subtitle: "Le Choix du Mode",
-      contradiction: "Formats passifs (podcasts, lecture auto) vs formats actifs (quiz, simulateurs).",
-      exemple: "Certains pros préfèrent écouter un flash info, d'autres tester un simulateur ACV.",
-      analyse: "Offrir une pluralité de modes permet d'élargir l'audience et de s'adapter aux temps disponibles.",
-      gestion: "Offrir les 3 modes sur un même sujet (à écouter, à survoler, à explorer)."
-    }
-  ];
+  // Mapping des icônes
+  const iconMap = {
+    Scale,
+    Users,
+    Bot,
+    MousePointer
+  };
+
+  const tensions = siteConfig.tensions.items.map(tension => ({
+    ...tension,
+    icon: iconMap[tension.icon as keyof typeof iconMap]
+  }));
 
   return (
-    <section 
-      id="tensions" 
-      ref={sectionRef}
-      className="section-padding tensions-section"
-    >
-      <div className="container">
-        
-        {/* Header */}
-        <div className={`
-          text-center mb-20 transition-all duration-700
-          ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}
-        `}>
+    <div className="tensions-container">
+      
+      {/* Header Section */}
+      <section className="hero-section-block tensions-header">
+        <div className="hero-content">
           <div className="w-20 h-20 bg-white rounded-xl flex items-center justify-center mx-auto mb-6 border-4 border-black" style={{boxShadow: '6px 6px 0 #FFE666'}}>
             <AlertTriangle className="text-black" size={32} />
           </div>
           
-          <h2 className="text-display font-black text-gray-900 mb-6">
-            Tensions & Contradictions
+          <h2 className="hero-title-large">
+            <span className="hero-title-gradient">{siteConfig.tensions.header.title.split(' ')[0]}</span> & {siteConfig.tensions.header.title.split(' ')[2]}
           </h2>
           
-          <p className="text-body-large text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            L'adoption de ces formats n'est pas sans enjeux. Comprendre ces contradictions 
-            est clé pour une <span className="highlight">stratégie équilibrée</span>.
+          <p className="hero-subtitle-large">
+            {siteConfig.tensions.header.subtitle} <span className="hero-highlight">{siteConfig.tensions.header.highlight}</span>.
           </p>
         </div>
+      </section>
 
-        {/* Grid des Tensions */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          {tensions.map((tension, index) => (
-            <div 
-              key={index}
-              className={`
-                impact-card transition-all duration-700
-                ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}
-              `}
-              style={{ 
-                animationDelay: `${index * 200}ms`
-              }}
-            >
+      {/* Tension Cards - Full Screen Each */}
+      {tensions.map((tension, index) => (
+        <section key={index} className="hero-section-block tension-card-section">
+          <div className="hero-fullscreen-card tension-card">
+            
+            {/* Header avec icône */}
+            <div className="hero-card-icon tension-icon">
+              <tension.icon size={32} className="text-white" />
+            </div>
+            
+            <h2 className="hero-card-title-large">
+              {tension.title}
+            </h2>
+            
+            <p className="hero-card-text-large">
+              {tension.subtitle}
+            </p>
+
+            {/* Contenu structuré */}
+            <div className="tension-content">
               
-              {/* Header */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center border-4 border-black" style={{boxShadow: '3px 3px 0 #FFE666'}}>
-                  <tension.icon size={24} className="text-black" />
-                </div>
-                <div>
-                  <h3 className="text-subtitle font-bold text-black">{tension.title}</h3>
-                  <p className="text-sm text-black font-medium opacity-80">{tension.subtitle}</p>
-                </div>
+              {/* Contradiction */}
+              <div className="tension-block">
+                <h4 className="tension-block-title">Contradiction</h4>
+                <p className="tension-block-text">{tension.contradiction}</p>
               </div>
 
-              {/* Contenu */}
-              <div className="space-y-5">
-                
-                {/* Contradiction */}
-                <div>
-                  <h4 className="font-bold text-black mb-2 text-xs uppercase tracking-wide">
-                    Contradiction
-                  </h4>
-                  <p className="text-sm text-black leading-relaxed opacity-90">{tension.contradiction}</p>
-                </div>
+              {/* Exemple */}
+              <div className="tension-block tension-example">
+                <h4 className="tension-block-title">Exemple</h4>
+                <p className="tension-block-text italic">{tension.exemple}</p>
+              </div>
 
-                {/* Exemple */}
-                <div className="bg-gray-card rounded-lg p-4 border-3 border-black">
-                  <h4 className="font-bold text-black mb-2 text-xs uppercase tracking-wide">
-                    Exemple
-                  </h4>
-                  <p className="text-sm text-black leading-relaxed italic opacity-90">{tension.exemple}</p>
-                </div>
-
-                {/* Gestion */}
-                <div className="highlight-full">
-                  <h4 className="font-bold text-black mb-2 text-xs uppercase tracking-wide flex items-center gap-2">
-                    <ArrowRight className="w-3 h-3" />
-                    Solution
-                  </h4>
-                  <p className="text-sm text-black leading-relaxed font-medium">{tension.gestion}</p>
-                </div>
+              {/* Solution */}
+              <div className="tension-block tension-solution">
+                <h4 className="tension-block-title">
+                  <ArrowRight className="w-4 h-4 inline mr-2" />
+                  Solution
+                </h4>
+                <p className="tension-block-text font-bold">{tension.gestion}</p>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          </div>
+        </section>
+      ))}
+    </div>
   );
 };
